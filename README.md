@@ -3,7 +3,8 @@
 * System dependencies
 
 Requires ChromeDriver
-brew install chromedriver
+
+  brew install chromedriver
 
 ----------
 

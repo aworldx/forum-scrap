@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe '/api/v1/communication/private_messages', type: :request do
   describe 'request without params' do
-    it 'returns status code 401' do
+    it 'returns status code 400' do
       get '/api/v1/communication/private_messages'
-      expect(response).to have_http_status(401)
-      expect(json['error']).to include('Parameter username is required')
+      expect(response).to have_http_status(400)
+      expect(json['error']).to include('param is missing or the value is empty')
     end
   end
 
@@ -23,10 +23,10 @@ RSpec.describe '/api/v1/communication/private_messages', type: :request do
   end
 
   describe 'with wrong navigation finder' do
-    it 'returns 404' do
-      stub_const("WELCOME_STR_FINDER", { xpath: "//b[contains(text(),'foo')]" })
+    it 'returns 504' do
+      stub_const("ForumScraper::WELCOME_STR_FINDER", { xpath: "//b[contains(text(),'foo')]" })
       get '/api/v1/communication/private_messages?username=aworldx@gmail.com&password=ugjdD5eq'
-      expect(response).to have_http_status(404)
+      expect(response).to have_http_status(504)
       expect(json['error']).to include('no such element')
     end
   end

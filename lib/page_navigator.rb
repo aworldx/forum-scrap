@@ -1,4 +1,7 @@
+# Wrapper for Selenium Web Driver.
+# Provides simple queries to the web page
 class PageNavigator
+  # driver
   def initialize
     @options = Selenium::WebDriver::Chrome::Options.new(args: ['headless'])
     @driver = Selenium::WebDriver.for(:chrome, options: @options)
@@ -10,7 +13,7 @@ class PageNavigator
   end
 
   def go_to(url)
-    @driver.get(url)   
+    @driver.get(url)
   end
 
   def fill_input(finder, value)

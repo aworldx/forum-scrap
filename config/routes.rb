@@ -1,3 +1,13 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  namespace :api, :defaults => {:format => :json} do
+    namespace :v1 do
+      namespace :communication do 
+        get 'private_messages', to: 'private_messages#show'
+      end
+
+      namespace :users do 
+
+      end
+    end
+  end
 end

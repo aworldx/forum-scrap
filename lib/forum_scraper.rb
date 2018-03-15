@@ -1,7 +1,7 @@
 # Controls browser page navigation, searchs page elements, fills forms
 class ForumScraper
-  FORUM_URL = "http://www.cyberforum.ru/"
-  LOGIN_URL = "http://www.cyberforum.ru/log-in.php"
+  FORUM_URL = 'http://www.cyberforum.ru/'
+  LOGIN_URL = 'http://www.cyberforum.ru/log-in.php'
 
   # Page navigator uses finder hashs for searching page controls.
   # Each finder is described by search method (by html tags, by attributes,
@@ -11,10 +11,6 @@ class ForumScraper
   LOGIN_BUTTON_FINDER = { xpath: "//input[@type='submit' and @value='Вход']" }
   WELCOME_STR_FINDER = { xpath: "//b[contains(text(),'Добро пожаловать')]" }
   UNREAD_MESSAGES_FINDER = { xpath: "//span[@id='notifications']/b" }
-
-  # Time in seconds during which @navigator will wait
-  # page control appearance
-  DEFAULT_WAIT_TIME = 10
 
   # @navigator provides requests to the browser
   def initialize

@@ -1,7 +1,7 @@
 # Controls browser page navigation, searchs page elements, fills forms
 class ForumScraper
-  FORUM_URL = 'http://www.cyberforum.ru/'
-  LOGIN_URL = 'http://www.cyberforum.ru/log-in.php'
+  FORUM_URL = 'http://www.cyberforum.ru/'.freeze
+  LOGIN_URL = 'http://www.cyberforum.ru/log-in.php'.freeze
 
   # Page navigator uses finder hashs for searching page controls.
   # Each finder is described by search method (by html tags, by attributes,

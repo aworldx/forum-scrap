@@ -9,8 +9,8 @@ RSpec.describe '/api/v1/communication/private_messages', type: :request do
     end
   end
 
-  describe 'request with login and password' do 
-    before { get '/api/v1/communication/private_messages?username=aworldx@gmail.com&password=ugjdD5eq' }
+  describe 'request with login and password' do
+    before { private_message_request }
 
     it 'returns status code 200' do
       expect(response).to have_http_status(200)
@@ -25,7 +25,7 @@ RSpec.describe '/api/v1/communication/private_messages', type: :request do
   describe 'with wrong navigation finder' do
     it 'returns 504' do
       stub_const("ForumScraper::WELCOME_STR_FINDER", { xpath: "//b[contains(text(),'foo')]" })
-      get '/api/v1/communication/private_messages?username=aworldx@gmail.com&password=ugjdD5eq'
+      private_message_request
       expect(response).to have_http_status(504)
       expect(json['error']).to include('no such element')
     end

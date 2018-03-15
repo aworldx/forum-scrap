@@ -1,0 +1,27 @@
+language: ruby
+rvm: 2.4
+env:
+  global:
+    - RAILS_ENV=test
+    - secure: YE+MNNMl+Ow8qvDoWezTEyR4+ht1I8hiO8x/+1t7iQilz98Y/VOzPqX3LPE2QFPzJV6jCrBQ6xvE7Kho0/eXfqWslsRlFJVJyhZpA9xWtQ+4mTSQT22YzLa2UgRPaShVaigEj2sNuJzl3yUO0IrIk5rXjjKiLDyUIpjhRHVFmIjd4JVI92ysAwrICPF+6/Gr6EVJ7hHk+98nAgKbhYD8lSWFo9vdwsDnDT5mb0ojj5uKDY1fII+aQIMTjDUx7NibUXk4qaL7RVB4ZTiIxv3iflccQeE43iZvbvXbECyXQ6TGBHCb18+YN/z1EVeZ1r8gYlhYWt+vHt81uzkm2wVFoA1lqQtDr+R4QVPek4PeTxNkUDQl++yigNL/NJkY7qgTwya0lfQZvIaVwPKVNFV1T+7SL/yzJcgar8x1mERry33tJsekYJcNFznt/zKWb0IIj24HttEX5SrQBYFYf6f0yVkW0htNNavWB2D2LQ0Hht+SA9gDmwc54iBDD9x/t554PwKE10ozmHVmXZRMclxOkaC6QRtiPY4uPjweJwLsan4yDzXkCEUeeeZqu9jTWZlSpLxh3f2gJWJzkVeorxIfSLm/QQptNLDYg5I4Cbo5fMNJ33CWbUlVkjEmsm420ZMARRO0IuTAFIpqpeToIkv6ZSOh3pRkayeeGGME9EKbRKg=
+    - secure: jyqVIjiRHuo8XZeh/madbi76Aj0Gm+Bel1tPBAgefkUJdE6MHD8rKkd9RblquJ3h5+HmB8yyr8+R2oBeF3HRA5Um83QeS9jBT2McOdCqUppSsL/NqEZp/emW41ryOSQp91dIKyI8/jAcjfC2ajIfz1IhfOUPsiSCwtg39/dKnCUk/2kr7Zb/9ApSeS9YAUPenW5sSYa+amNwXpRBRO3x88Q4VOD/ZsbzipeI5DYyLmUECJ/WLAm31/DjzMXwlO1rgvQMi4N5YnkbJJlTBa9DbB1XZLZ9DhGULSb0vaiVRjyyugUL+o4RLBLf17c4t9gsB4T/wEDBPuI9V1Gk05ueKToi/DsO0gONdKKJ7jvVzoqx5VrzC6ToVrtRXJV6QIl0s320mhSvKkCPUyE5OE8s/jSVxo+Gp7ObH04WkDX+PJD26va4a1YBO1MmVPs2oMMWffPIKVWJ1lbU5eHTmnRzw2Ym8yBmjYhlyZhTBns7OD5Cjea0EDBwUFVf4lbapv/7zrLe/R9G6G3Gti4mozEu0pxd0IdpsjhN0aeA/yX2sKI+w/hjkZVxBvlx4E0IxBEReWRcGRWctLTIMngv+3BFGsdC37I0ZmEOj1711sMhNpxDZ/f2L3JcMn7cM7i+BolmRMbGyFbI+1nTvMAihKpRpawIZ5Sd+iWgKuifJmJKXEU=
+dist: trusty
+sudo: required
+addons:
+  chrome: stable
+before_install:
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+install:
+  - wget -N http://chromedriver.storage.googleapis.com/2.36/chromedriver_linux64.zip -P ~/
+  - unzip ~/chromedriver_linux64.zip -d ~/
+  - rm ~/chromedriver_linux64.zip
+  - sudo mv -f ~/chromedriver /usr/local/share/
+  - sudo chmod +x /usr/local/share/chromedriver
+  - sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
+  - bundle install --jobs=3 --retry=3
+before_script:
+  - cp config/database.yml.travis config/database.yml
+  - psql -c 'create database travis_ci_test;' -U postgres
+  - bundle exec rake db:migrate
+script:
+  - bundle exec rspec

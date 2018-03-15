@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/aworldx/forum-scrap.svg?branch=master)](https://travis-ci.org/aworldx/forum-scrap)
+
 # README
 
 * System dependencies
